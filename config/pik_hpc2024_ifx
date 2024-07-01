@@ -1,0 +1,14 @@
+FC = ifx
+
+# NetCDF
+INC_NC  = -I${NETCDFFI_ROOT}/include
+LIB_NC  = -L${NETCDFFI_ROOT}/lib -Wl\,-rpath=${NETCDFFI_ROOT}/lib -lnetcdff -L${NETCDFC_ROOT}/lib -Wl\,-rpath=${NETCDFC_ROOT}/lib -lnetcdf
+
+DFLAGS_NODEBUG = -Ofast -march=core-avx2 -mtune=core-avx2 -traceback  # -mno-lzcnt
+DFLAGS_DEBUG   = -C -traceback -ftrapuv -fpe0 -check all -fp-model precise
+DFLAGS_PROFILE = -fp-model precise -pg
+
+FFLAGS_DEFAULT = -module $(objdir) -L$(objdir) $(INC_NC)
+FFLAGS_OPENMP  = $(FFLAGS_DEFAULT) -qopenmp
+
+LFLAGS  = $(LIB_NC)
